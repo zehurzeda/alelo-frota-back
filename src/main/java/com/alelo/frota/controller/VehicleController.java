@@ -70,7 +70,7 @@ public class VehicleController {
 		}
 	}
 
-	@DeleteMapping()
+	@DeleteMapping(path = "/{id}")
 	@ApiOperation(value = "delete vehicle")
 	public void deleteVehicle(@PathVariable final long id) {
 		try {

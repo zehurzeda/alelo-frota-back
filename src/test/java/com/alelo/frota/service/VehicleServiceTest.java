@@ -30,7 +30,7 @@ class VehicleServiceTest {
 		
 		Vehicle savedVehicle = this.vehicleService.saveVehicle(vehicle);
 		
-		Vehicle findedVehicle = this.repository.findByPlate("BBC-1237");
+		Vehicle findedVehicle = this.repository.findByPlateIgnoreCase("BBC-1237");
 		
 		assertNotNull(findedVehicle);
 		

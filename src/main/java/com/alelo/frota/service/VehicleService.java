@@ -31,10 +31,10 @@ public class VehicleService {
 		newEntity.setColor(vehicleToSave.getColor());
 		newEntity.setManufacturer(vehicleToSave.getManufacturer());
 		newEntity.setModel(vehicleToSave.getModel());
-		newEntity.setPlate(vehicleToSave.getPlate());
+		newEntity.setPlate(entity.getPlate());
 		newEntity.setStatus(vehicleToSave.getStatus());
 
-		return entity;
+		return newEntity;
 	}
 
 	public Vehicle getVehicleById(Long id) throws VehicleNotFoundException {
@@ -50,9 +50,9 @@ public class VehicleService {
 	public Page<Vehicle> getVehicles(String plate, Boolean status, Pageable pageable) {
 
 		if ((plate != null && !plate.isEmpty()) && status != null) {
-			return repository.findByPlateContainsAndStatus(plate, status, pageable);
+			return repository.findByPlateContainsIgnoreCaseAndStatus(plate, status, pageable);
 		} else if (plate != null && !plate.isEmpty()) {
-			return repository.findByPlateContains(plate, pageable);
+			return repository.findByPlateContainsIgnoreCase(plate, pageable);
 		} else if (status != null) {
 			return repository.findByStatus(status, pageable);
 		}
@@ -63,7 +63,7 @@ public class VehicleService {
 	public Vehicle saveVehicle(Vehicle vehicleToSave) throws DuplicatedPlateException {
 		vehicleToSave.setId(null);
 		
-		Vehicle plate = this.repository.findByPlate(vehicleToSave.getPlate());
+		Vehicle plate = this.repository.findByPlateIgnoreCase(vehicleToSave.getPlate());
 		
 		if(plate != null) {
 			throw new DuplicatedPlateException("Already exists vehicle with plate " + vehicleToSave.getPlate() + ".");
@@ -77,10 +77,6 @@ public class VehicleService {
 		Vehicle entity = this.getVehicleById(id);
 
 		Vehicle entityToSave = this.getEntity(entity, vehicleToSave);
-		
-		if(entity.getPlate().equalsIgnoreCase(vehicleToSave.getPlate())) {
-			throw new DuplicatedPlateException("Already exists vehicle with plate " + vehicleToSave.getPlate() + ".");
-		}
 
 		return this.repository.save(entityToSave);
 	}
