@@ -40,4 +40,4 @@ Para acessar a aplicação é necessário a parte frontend.
 
 Também foi feito o deploy da aplicação no Heroku, podemos acessa-la pelo link:
 
-[heroku-app](https://vek-simulation-app.herokuapp.com/home)
+[heroku-app](https://alelo-frota.herokuapp.com/)
